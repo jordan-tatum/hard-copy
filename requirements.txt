@@ -5,34 +5,34 @@
 # ============================================================
 
 # FastAPI — web framework
-fastapi==0.104.1
+fastapi>=0.104.1
 
 # Uvicorn — ASGI server that runs FastAPI
-uvicorn[standard]==0.24.0
+uvicorn[standard]>=0.24.0
 
 # SQLAlchemy — ORM (Python to SQL translator)
-sqlalchemy==2.0.23
+sqlalchemy>=2.0.23
 
 # psycopg2 — PostgreSQL database driver
 # Used by both SQLAlchemy (app/) and directly (cli/)
-psycopg2-binary==2.9.9
+psycopg2-binary>=2.9.9
 
 # Pydantic — request/response validation
 # Included with FastAPI but pinned for stability
-pydantic==2.5.0
+pydantic>=2.7.4
 
 # python-dotenv — loads .env file into environment variables
-python-dotenv==1.0.0
+python-dotenv>=1.0.0
 
 # pandas — used in CLI version for displaying collection as a table
-pandas==2.1.4
+pandas>=2.2.3
 
 # ============================================================
 # Development / Testing
 # ============================================================
 
 # pytest — test runner
-pytest==7.4.3
+pytest>=7.4.3
 
 # httpx — HTTP client used by FastAPI's test client
-httpx==0.25.2
+httpx>=0.25.2
