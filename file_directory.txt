@@ -21,6 +21,7 @@ dvd_tracker/
 │
 ├── requirements.txt                      # Python package dependencies
 │   # pip install -r requirements.txt
+│   # Uses >= versioning for Python 3.13 compatibility
 │
 ├── README.md                             # Project documentation
 │
@@ -52,6 +53,7 @@ dvd_tracker/
 │   │
 │   ├── database.py                       # Database configuration
 │   │   # - Reads DATABASE_URL from .env via os.getenv()
+│   │   # - Raises ValueError if DATABASE_URL not found
 │   │   # - Creates SQLAlchemy engine with connection pooling
 │   │   # - SessionLocal factory (autocommit=False, autoflush=False)
 │   │   # - Base = declarative_base() — parent for all models
@@ -110,6 +112,7 @@ dvd_tracker/
 │   │
 │   ├── db.py                             # psycopg2 connection
 │   │   # Reads credentials from .env via os.getenv()
+│   │   # Raises ValueError if DB_PASSWORD not found
 │   │   # get_connection() — returns psycopg2 connection
 │   │
 │   ├── dvd_repo.py                       # Repository functions
@@ -126,10 +129,14 @@ dvd_tracker/
 │       #   4. Exit
 │
 │   # ============================================================
-│   # FRONTEND — Web Interface
+│   # DOCS — Web Interface (served by GitHub Pages)
+│   # ============================================================
+│   # Note: This folder was previously named 'frontend'
+│   # Renamed to 'docs' so GitHub Pages can serve it automatically
+│   # Settings → Pages → Deploy from branch → main → /docs
 │   # ============================================================
 │
-├── frontend/
+├── docs/
 │   │
 │   ├── index.html                        # Main page
 │   │   # Sections: header, add form, search bar, DVD grid
@@ -188,10 +195,28 @@ dvd_tracker/
         # test_schemas.py   — Pydantic schema validation tests
 
 # ============================================================
-# NOT TRACKED BY GIT
+# NOT TRACKED BY GIT (.gitignore)
 # ============================================================
 # .env               — real credentials
-# .venv/             — virtual environment
+# .venv/             — virtual environment (recreate with: python -m venv .venv)
 # __pycache__/       — compiled Python files
 # *.pyc              — compiled Python files
 # tutorials/         — personal learning notes, not part of app
+
+# ============================================================
+# GIT WORKFLOW
+# ============================================================
+# Normal push:
+#   git add .
+#   git commit -m "describe what changed"
+#   git push
+#
+# If push rejected (remote has changes):
+#   git pull origin main --allow-unrelated-histories
+#   git push
+#
+# If you accidentally commit a sensitive file:
+#   git rm -r --cached <filename>
+#   git add .
+#   git commit -m "Remove ignored file"
+#   git push

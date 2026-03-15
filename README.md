@@ -21,9 +21,9 @@ A full-stack web application for managing a DVD collection. Built with FastAPI, 
 ## Tech Stack
 
 **Backend**
-- Python 3.11+
+- Python 3.13+
 - FastAPI — web framework
-- PostgreSQL — database
+- PostgreSQL 18 — database
 - SQLAlchemy — ORM (Python to SQL translator)
 - Pydantic — request/response validation
 - psycopg2 — PostgreSQL driver
@@ -54,7 +54,7 @@ dvd_tracker/
 │   ├── dvd_repo.py         # Database functions
 │   └── db.py               # psycopg2 connection
 │
-├── frontend/               # Web interface
+├── docs/                   # Web interface (served by GitHub Pages)
 │   ├── index.html          # Main page structure
 │   ├── css/
 │   │   ├── style.css       # Main styles
@@ -80,7 +80,7 @@ dvd_tracker/
 ## Setup
 
 ### Prerequisites
-- Python 3.11+
+- Python 3.13+
 - PostgreSQL 18+
 - Git
 
@@ -175,12 +175,23 @@ API_PORT=8000
 
 ## Running the Frontend
 
-Open `frontend/index.html` with VS Code's Live Server extension.
+Open `docs/index.html` with VS Code's Live Server extension.
 
-Make sure `API_BASE` in `frontend/js/api.js` points to your running server:
+Make sure `API_BASE` in `docs/js/api.js` points to your running server:
 ```javascript
 const API_BASE = "http://localhost:8000";
 ```
+
+---
+
+## GitHub Pages
+
+The `docs/` folder is served automatically by GitHub Pages at:
+`https://jordan-tatum.github.io/hard-copy`
+
+To update the live site just push to main — GitHub Pages deploys automatically.
+
+Note: GitHub Pages only serves the static frontend. The FastAPI backend must be running locally or deployed separately for the app to function.
 
 ---
 
@@ -189,9 +200,34 @@ const API_BASE = "http://localhost:8000";
 | Stage | Frontend | Backend | Status |
 |-------|----------|---------|--------|
 | Local | Live Server | python run.py | ✅ Current |
-| Partial | File / GitHub Pages | Railway or Render | 🔜 Next |
+| Partial | GitHub Pages | Railway or Render | 🔜 Next |
 | Full | GitHub Pages | Railway or Render | 🔜 After bootcamp |
 | Production | S3 + CloudFront | AWS EC2 + RDS | 🔜 After AWS certs |
+
+---
+
+## Git Workflow
+
+```bash
+# Everyday push
+git add .
+git commit -m "describe what changed"
+git push
+
+# If push is rejected (remote has changes)
+git pull origin main --allow-unrelated-histories
+git push
+```
+
+---
+
+## .gitignore
+
+The following are never committed to GitHub:
+- `.env` — real credentials
+- `.venv/` — virtual environment
+- `__pycache__/` — compiled Python files
+- `tutorials/` — personal learning notes
 
 ---
 
