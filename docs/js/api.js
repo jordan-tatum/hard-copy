@@ -11,7 +11,7 @@
 
 // The base URL of your FastAPI server.
 // Change this if your API runs on a different port.
-const API_BASE = "http://localhost:8000";
+const API_BASE = "http://192.168.7.199:8000";
 
 
 // ------------------------------------------------------------
