@@ -24,6 +24,7 @@ from ..schemas import DVDCreate, DVDResponse, DVDUpdate, DVDList, Message
 router = APIRouter(
     prefix="/api/dvds",
     tags=["DVDs"],
+    redirect_slashes=False,
     responses={
         404: {"description": "DVD not found"},
         400: {"description": "Bad request"}
