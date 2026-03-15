@@ -1,0 +1,197 @@
+# ============================================================
+# HARD COPY — FILE DIRECTORY
+# v2.1.0
+# ============================================================
+
+dvd_tracker/
+│
+│   # ============================================================
+│   # ROOT LEVEL FILES
+│   # ============================================================
+│
+├── .env                                  # Environment variables (NEVER commit to Git)
+│   # DATABASE_URL, DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD
+│   # API_HOST, API_PORT
+│
+├── .env.example                          # Safe template — commit this, not .env
+│   # Shows required variable names with placeholder values
+│
+├── .gitignore                            # Files Git will never track
+│   # Ignores: .env, .venv/, __pycache__/, *.pyc, tutorials/
+│
+├── requirements.txt                      # Python package dependencies
+│   # pip install -r requirements.txt
+│
+├── README.md                             # Project documentation
+│
+├── run.py                                # API server entry point
+│   # Runs: uvicorn app.main:app --reload
+│   # Reads API_HOST and API_PORT from .env
+│
+├── HardCopy.bat                          # Windows launcher (double-click to start)
+│   # 1. Starts postgresql-x64-18 service
+│   # 2. Activates .venv
+│   # 3. Runs python run.py
+│
+│   # ============================================================
+│   # APP — FastAPI Application (Backend)
+│   # ============================================================
+│
+├── app/
+│   │
+│   ├── __init__.py                       # Package init — version: 2.1.0
+│   │
+│   ├── main.py                           # FastAPI app entry point
+│   │   # - Creates FastAPI() instance
+│   │   # - Configures CORS middleware
+│   │   # - Calls Base.metadata.create_all() on startup
+│   │   # - Includes dvds router
+│   │   # - Root endpoints: /, /health, /api
+│   │   # - Custom 404 and 500 error handlers
+│   │   # - Startup/shutdown event logging
+│   │
+│   ├── database.py                       # Database configuration
+│   │   # - Reads DATABASE_URL from .env via os.getenv()
+│   │   # - Creates SQLAlchemy engine with connection pooling
+│   │   # - SessionLocal factory (autocommit=False, autoflush=False)
+│   │   # - Base = declarative_base() — parent for all models
+│   │   # - get_db() dependency — opens, yields, always closes session
+│   │
+│   ├── models.py                         # SQLAlchemy ORM models
+│   │   # DVD model:
+│   │   #   - id (Integer, primary_key)
+│   │   #   - title (String, nullable=False)
+│   │   #   - purchase_location (String, nullable=True)
+│   │   #   - purchase_date (Date, server_default=NOW())
+│   │   # Methods:
+│   │   #   - __repr__() for readable debug output
+│   │   #   - to_dict() for manual serialization
+│   │   # Future models planned: Genre, WatchHistory, Wishlist
+│   │
+│   ├── schemas.py                        # Pydantic validation schemas
+│   │   # DVDBase     — shared fields (title, purchase_location)
+│   │   # DVDCreate   — used for POST requests (inherits DVDBase)
+│   │   # DVDUpdate   — used for PUT requests (all fields optional)
+│   │   # DVDResponse — used for all responses (adds id, purchase_date)
+│   │   #               has Config: from_attributes = True
+│   │   # DVDList     — paginated list with metadata
+│   │   # Message     — simple message response
+│   │   # ErrorResponse — structured error response
+│   │
+│   └── routers/
+│       │
+│       ├── __init__.py                   # Imports dvds router
+│       │
+│       └── dvds.py                       # All DVD API endpoints
+│           # Router prefix: /api/dvds
+│           #
+│           # Helper functions:
+│           #   normalize_title() — lowercase, strip special chars
+│           #   check_duplicate() — fuzzy title match before insert
+│           #
+│           # Endpoints:
+│           #   GET    /api/dvds              — all DVDs (sort + paginate)
+│           #   GET    /api/dvds/count        — total count
+│           #   GET    /api/dvds/search       — search by title (ilike)
+│           #   GET    /api/dvds/{id}         — single DVD by id
+│           #   POST   /api/dvds              — add new DVD
+│           #   PUT    /api/dvds/{id}         — update DVD
+│           #   DELETE /api/dvds/{id}         — remove DVD (returns 204)
+│           #   GET    /api/dvds/location/{l} — filter by location
+│           #   GET    /api/dvds/stats/summary — collection statistics
+│
+│   # ============================================================
+│   # CLI — Original Command Line Version (Legacy)
+│   # ============================================================
+│
+├── cli/
+│   │
+│   ├── __init__.py                       # Version: 1.0.0
+│   │
+│   ├── db.py                             # psycopg2 connection
+│   │   # Reads credentials from .env via os.getenv()
+│   │   # get_connection() — returns psycopg2 connection
+│   │
+│   ├── dvd_repo.py                       # Repository functions
+│   │   # normalize_title() — same logic as app/routers/dvds.py
+│   │   # insert_dvd(title, location) — adds DVD with duplicate check
+│   │   # remove_dvd(title) — removes by normalized title match
+│   │   # get_all_dvds() — returns pandas DataFrame
+│   │
+│   └── main.py                           # CLI entry point
+│       # Menu-driven interface:
+│       #   1. Add a movie  → insert_dvd()
+│       #   2. Remove a movie → remove_dvd()
+│       #   3. View collection → get_all_dvds()
+│       #   4. Exit
+│
+│   # ============================================================
+│   # FRONTEND — Web Interface
+│   # ============================================================
+│
+├── frontend/
+│   │
+│   ├── index.html                        # Main page
+│   │   # Sections: header, add form, search bar, DVD grid
+│   │   # Loads: Bootstrap Icons CDN, style.css, mobile.css
+│   │   # Scripts loaded at bottom in order: utils.js, api.js, app.js
+│   │
+│   ├── css/
+│   │   ├── style.css                     # Main desktop styles
+│   │   │   # Colour palette: navy bg, amber accent (#f6ad55)
+│   │   │   # Components: header, inputs, buttons, DVD cards
+│   │   │   # Pseudo-classes: :hover, :focus, :active
+│   │   │   # Pseudo-elements: ::placeholder, ::before
+│   │   │   # CSS Grid: auto-fill columns, min 240px
+│   │   │
+│   │   └── mobile.css                    # Responsive overrides
+│   │       # @media (max-width: 600px)
+│   │       # Stacks form vertically, single column grid
+│   │
+│   ├── js/
+│   │   ├── api.js                        # All fetch() calls to FastAPI
+│   │   │   # API_BASE = "http://localhost:8000"
+│   │   │   # getAllDVDs()      — GET /api/dvds
+│   │   │   # searchDVDs()     — GET /api/dvds/search?title=
+│   │   │   # getDVDCount()    — GET /api/dvds/count
+│   │   │   # addDVD()         — POST /api/dvds
+│   │   │   # deleteDVD()      — DELETE /api/dvds/{id}
+│   │   │
+│   │   ├── app.js                        # Main application logic
+│   │   │   # renderDVDs()     — builds DVD cards from array
+│   │   │   # updateCount()    — updates header badge
+│   │   │   # loadCollection() — fetches all + renders (called on load)
+│   │   │   # handleAdd()      — reads inputs, calls addDVD()
+│   │   │   # handleDelete()   — confirm dialog, calls deleteDVD()
+│   │   │   # handleSearch()   — live search on every keystroke
+│   │   │
+│   │   └── utils.js                      # Helper functions
+│   │       # formatDate()     — "2025-01-15" → "Jan 15, 2025"
+│   │       # showMessage()    — success/error message display
+│   │       # clearInputs()    — clears multiple input fields
+│   │
+│   ├── images/
+│   │   └── logo.png                      # App logo
+│   │
+│   └── assets/
+│       └── favicon.ico                   # Browser tab icon
+│
+│   # ============================================================
+│   # TESTS — Future
+│   # ============================================================
+│
+└── tests/
+    └── __init__.py
+        # Planned:
+        # test_dvds.py      — endpoint integration tests
+        # test_models.py    — SQLAlchemy model tests
+        # test_schemas.py   — Pydantic schema validation tests
+
+# ============================================================
+# NOT TRACKED BY GIT
+# ============================================================
+# .env               — real credentials
+# .venv/             — virtual environment
+# __pycache__/       — compiled Python files
+# *.pyc              — compiled Python files
+# tutorials/         — personal learning notes, not part of app

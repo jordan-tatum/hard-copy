@@ -1,0 +1,8 @@
+"""
+CLI Application Package (Legacy)
+
+Your original command-line interface.
+Kept for reference and backup.
+"""
+
+__version__ = "1.0.0"

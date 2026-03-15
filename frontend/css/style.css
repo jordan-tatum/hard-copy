@@ -1,0 +1,316 @@
+/* ============================================================
+   HARD COPY — Main Stylesheet
+   Colours:
+     --navy:    #1a2332  (darkest bg)
+     --surface: #243044  (card bg)
+     --border:  #2e3a4e  (borders)
+     --muted:   #4a5568  (secondary text)
+     --text:    #e2e8f0  (primary text)
+     --accent:  #f6ad55  (amber — buttons, highlights)
+============================================================ */
+
+/* ------------------------------------------------------------
+   RESET & BASE
+------------------------------------------------------------ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #1a2332;
+  color: #e2e8f0;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ------------------------------------------------------------
+   HEADER
+------------------------------------------------------------ */
+.header {
+  background-color: #111c2b;
+  border-bottom: 1px solid #2e3a4e;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+}
+
+.logo-text {
+  font-size: 20px;
+  font-weight: 700;
+  color: #f6ad55;
+  letter-spacing: -0.5px;
+}
+
+/* DVD count badge in the header */
+.stat-badge {
+  background-color: #2e3a4e;
+  color: #f6ad55;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 5px 14px;
+  border-radius: 20px;
+  border: 1px solid #3d4e63;
+}
+
+/* ------------------------------------------------------------
+   MAIN LAYOUT
+------------------------------------------------------------ */
+.main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem;
+}
+
+.section-title {
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #4a5568;
+  margin-bottom: 1rem;
+}
+
+/* ------------------------------------------------------------
+   ADD DVD FORM
+------------------------------------------------------------ */
+.add-section {
+  margin-bottom: 2.5rem;
+}
+
+.form-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* ------------------------------------------------------------
+   INPUTS
+------------------------------------------------------------ */
+.input {
+  background-color: #243044;
+  border: 1px solid #2e3a4e;
+  border-radius: 8px;
+  color: #e2e8f0;
+  font-size: 14px;
+  font-family: inherit;
+  padding: 10px 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.input::placeholder {
+  color: #4a5568;
+}
+
+.input:focus {
+  border-color: #f6ad55;
+}
+
+/* Title input takes more space than location */
+#input-title {
+  flex: 2;
+}
+
+#input-location {
+  flex: 1.5;
+}
+
+/* Full-width search input */
+.input-search {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 15px;
+}
+
+/* ------------------------------------------------------------
+   BUTTONS
+------------------------------------------------------------ */
+.btn {
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 20px;
+  transition: background-color 0.2s, transform 0.1s;
+  white-space: nowrap;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn-primary {
+  background-color: #f6ad55;
+  color: #1a2332;
+}
+
+.btn-primary:hover {
+  background-color: #ed8936;
+}
+
+/* Small delete button on each card */
+.btn-delete {
+  background-color: transparent;
+  border: 1px solid #3d4e63;
+  color: #4a5568;
+  font-size: 12px;
+  padding: 5px 10px;
+  border-radius: 6px;
+}
+
+.btn-delete:hover {
+  border-color: #e53e3e;
+  color: #e53e3e;
+}
+
+/* ------------------------------------------------------------
+   STATUS MESSAGES (after add/delete)
+------------------------------------------------------------ */
+.message {
+  margin-top: 10px;
+  font-size: 13px;
+  padding: 8px 14px;
+  border-radius: 6px;
+}
+
+.message.success {
+  background-color: rgba(72, 187, 120, 0.15);
+  color: #68d391;
+  border: 1px solid rgba(72, 187, 120, 0.3);
+}
+
+.message.error {
+  background-color: rgba(229, 62, 62, 0.15);
+  color: #fc8181;
+  border: 1px solid rgba(229, 62, 62, 0.3);
+}
+
+.hidden {
+  display: none;
+}
+
+/* ------------------------------------------------------------
+   SEARCH SECTION
+------------------------------------------------------------ */
+.search-section {
+  margin-bottom: 2.5rem;
+}
+
+/* ------------------------------------------------------------
+   DVD GRID
+------------------------------------------------------------ */
+
+.collection-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+/* CSS Grid — auto-fill columns that are at least 240px wide */
+.dvd-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+/* ------------------------------------------------------------
+   DVD CARD
+------------------------------------------------------------ */
+.dvd-card {
+  background-color: #243044;
+  border: 1px solid #2e3a4e;
+  border-radius: 12px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.dvd-card:hover {
+  border-color: #3d4e63;
+  transform: translateY(-2px);
+}
+
+.dvd-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #e2e8f0;
+  line-height: 1.3;
+}
+
+.dvd-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.dvd-location,
+.dvd-date {
+  font-size: 12px;
+  color: #4a5568;
+}
+
+/* Little coloured dot before location */
+.dvd-location::before {
+  content: '📍 ';
+  font-size: 10px;
+}
+
+.dvd-date::before {
+  content: '📅 ';
+  font-size: 10px;
+}
+
+.dvd-card-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: auto;
+}
+
+/* ------------------------------------------------------------
+   EMPTY / LOADING STATES
+------------------------------------------------------------ */
+.loading,
+.empty-state {
+  grid-column: 1 / -1;   /* span all columns */
+  text-align: center;
+  color: #4a5568;
+  font-size: 14px;
+  padding: 4rem 0;
+}
+
+.empty-state .empty-icon {
+  font-size: 48px;
+  display: block;
+  margin-bottom: 1rem;
+}
