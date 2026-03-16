@@ -62,15 +62,7 @@ app = FastAPI(
 # Allow frontend to connect from different origin
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",  # React default
-        "http://localhost:5173",  # Vite default
-        "http://127.0.0.1:3000",
-        "http://127.0.0.1:5173",
-        "http://127.0.0.1:5500",   # production front-end
-        "http://localhost:5500",
-        "https://jordan-tatum.github.io",
-    ],
+    allow_origins=["*"], # Temporary while a home network app
     allow_credentials=True,
     allow_methods=["*"],  # Allow all HTTP methods
     allow_headers=["*"],  # Allow all headers
